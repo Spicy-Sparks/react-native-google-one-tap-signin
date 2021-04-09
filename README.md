@@ -1,4 +1,4 @@
-![React Native Google One Tap Sign In]
+# React Native Google One Tap Sign In
 
 ## Features
 
