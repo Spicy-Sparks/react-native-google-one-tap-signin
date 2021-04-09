@@ -1,12 +1,4 @@
-![React Native Google One Tap Sign In](img/header.png)
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/%40react-native-community%2Fgoogle-signin.svg" alt="NPM Version"></a>
-</p>
-
-### 🚧🚧 Maintenance notice 🚧🚧
-
-See this [issue](https://github.com/react-native-google-signin/google-signin/issues/942)
+![React Native Google One Tap Sign In]
 
 ## Features
 
@@ -17,15 +9,13 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 
 ## Project setup and initialization
 
-For RN >= 0.60 please use version installed from `@react-native-google-signin/google-signin`
+For RN >= 0.60 please use version installed from `react-native-google-one-tap-signin`
 
-`yarn add @react-native-google-signin/google-signin`
+`yarn add react-native-google-one-tap-signin`
 
-For RN <= 0.59 use version 2 installed from `react-native-google-signin`
+For RN <= 0.59 use version 2 installed from `react-native-google-one-tap-signin`
 
-`yarn add react-native-google-signin`
-
-Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
+`yarn add react-native-google-one-tap-signin`
 
 ## Public API
 
@@ -146,7 +136,7 @@ try {
 
 You may also use this call at any time to find out if Google Play Services are available and react to the result as necessary.
 
-[![prompt install](img/prompt-install.png)](#prompt-install)
+[![prompt install]]
 
 #### `statusCodes`
 
@@ -163,7 +153,7 @@ These are useful when determining which kind of error has occured during sign in
 
 ### 2. GoogleOneTapSignInButton
 
-![signin button](img/signin-button.png)
+![signin button]
 
 ```js
 import { GoogleOneTapSignIn, GoogleOneTapSignInButton } from 'react-native-google-one-tap-signin';
@@ -205,7 +195,7 @@ Boolean. If true, all interactions for the button are disabled.
 
 Handler to be called when the user taps the button
 
-##### [Inherited `View` props...](https://facebook.github.io/react-native/docs/view#props)
+##### [Inherited `View` props...]
 
 ### 3. `userInfo`
 
