@@ -8,7 +8,7 @@ class GoogleOneTapSignIn {
   configPromise;
 
   constructor() {
-    if (__DEV__ && !RNGoogleOneTapSignIn) {
+    if (__DEV__ && !IS_IOS && !RNGoogleOneTapSignIn) {
       console.error(
         `RN GoogleOneTapSignIn native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking. If you're using Expo, please use expo-google-sign-in. This is because Expo does not support custom native modules.`
       );
@@ -75,7 +75,7 @@ class GoogleOneTapSignIn {
 
 export const GoogleOneTapSignInSingleton = new GoogleOneTapSignIn();
 
-export const statusCodes = {
+export const statusCodes = IS_IOS ? {} : {
   SIGN_IN_CANCELLED: RNGoogleOneTapSignIn.SIGN_IN_CANCELLED,
   IN_PROGRESS: RNGoogleOneTapSignIn.IN_PROGRESS,
   PLAY_SERVICES_NOT_AVAILABLE: RNGoogleOneTapSignIn.PLAY_SERVICES_NOT_AVAILABLE,

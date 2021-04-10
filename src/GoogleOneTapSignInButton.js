@@ -10,6 +10,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
+const IS_IOS = Platform.OS === 'ios';
+
 const { RNGoogleOneTapSignIn } = NativeModules;
 const RNGoogleOneTapSignInButton = requireNativeComponent('RNGoogleOneTapSignInButton', null);
 
@@ -65,13 +67,13 @@ const styles = StyleSheet.create({
   wideSize: { width: 312, height: 48 },
 });
 
-GoogleOneTapSignInButton.Size = {
+GoogleOneTapSignInButton.Size = IS_IOS ? {} : {
   Icon: RNGoogleOneTapSignIn.BUTTON_SIZE_ICON,
   Standard: RNGoogleOneTapSignIn.BUTTON_SIZE_STANDARD,
   Wide: RNGoogleOneTapSignIn.BUTTON_SIZE_WIDE,
 };
 
-GoogleOneTapSignInButton.Color = {
+GoogleOneTapSignInButton.Color = IS_IOS ? {} : {
   Auto: RNGoogleOneTapSignIn.BUTTON_COLOR_AUTO,
   Light: RNGoogleOneTapSignIn.BUTTON_COLOR_LIGHT,
   Dark: RNGoogleOneTapSignIn.BUTTON_COLOR_DARK,
