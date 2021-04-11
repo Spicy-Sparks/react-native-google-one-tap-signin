@@ -63,6 +63,15 @@ class GoogleOneTapSignIn {
     }
   }
 
+  async deletePassword(userId, password) {
+    if (IS_IOS) {
+      return true;
+    } else {
+      await this.configPromise;
+      return RNGoogleOneTapSignIn.deletePassword(userId, password);
+    }
+  }
+
   async signOut() {
     if (IS_IOS) {
       return true;
