@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   NativeModules,
   requireNativeComponent,
-  ViewPropTypes,
+  ViewProp,
   Platform,
   DeviceEventEmitter,
   StyleSheet,
@@ -17,7 +17,7 @@ const RNGoogleOneTapSignInButton = requireNativeComponent('RNGoogleOneTapSignInB
 
 export class GoogleOneTapSignInButton extends PureComponent {
   static propTypes = {
-    ...ViewPropTypes,
+    ...ViewProp,
     size: PropTypes.number,
     color: PropTypes.number,
     disabled: PropTypes.bool,
