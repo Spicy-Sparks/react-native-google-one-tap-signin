@@ -38,6 +38,10 @@ class GoogleOneTapSignIn {
   }
 
   configure(options = {}) {
+    if (IS_IOS) {
+      return true;
+    }
+    
     if (options.offlineAccess && !options.webClientId) {
       throw new Error('RNGoogleOneTapSignIn: offline use requires server web ClientID');
     }
