@@ -25,11 +25,11 @@ export class GoogleOneTapSignInButton extends PureComponent {
   };
 
   static defaultProps = {
-    size: RNGoogleOneTapSignIn.BUTTON_SIZE_STANDARD,
+    size: IS_IOS ? 0 : RNGoogleOneTapSignIn.BUTTON_SIZE_STANDARD,
   };
 
   componentDidMount() {
-    if (Platform.OS === 'android') {
+    if (!IS_IOS) {
       this._clickListener = DeviceEventEmitter.addListener('RNGoogleOneTapSignInButtonClicked', () => {
         this.props.onPress && this.props.onPress();
       });
@@ -63,8 +63,14 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
   },
-  standardSize: { width: 212, height: 48 },
-  wideSize: { width: 312, height: 48 },
+  standardSize: {
+    width: 212,
+    height: 48
+  },
+  wideSize: {
+    width: 312,
+    height: 48
+  },
 });
 
 GoogleOneTapSignInButton.Size = IS_IOS ? {} : {
