@@ -47,8 +47,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '19.0.0')}"
-    implementation "com.facebook.react:react-native:+"
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation "androidx.appcompat:appcompat:1.1.0"
+  implementation("androidx.credentials:credentials:${safeExtGet('androidCredentialsVersion', '1.3.0-alpha01')}")
+  implementation("androidx.credentials:credentials-play-services-auth:${safeExtGet('androidCredentialsVersion', '1.3.0-alpha01')}")
+  implementation "com.facebook.react:react-native:+"
 }
