@@ -46,9 +46,14 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void signIn(Promise promise) {
+    var activity = getCurrentActivity();
+    if (activity == null) {
+      promise.reject("ERROR", "Activity is null");
+      return;
+    }
     Executor executor = Executors.newSingleThreadExecutor();
     credentialManager.getCredentialAsync(
-      getCurrentActivity(),
+      activity,
       getCredRequest,
       null,
       executor,
@@ -98,10 +103,15 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void savePassword(String username, String password, Promise promise) {
+    var activity = getCurrentActivity();
+    if (activity == null) {
+      promise.reject("ERROR", "Activity is null");
+      return;
+    }
     Executor executor = Executors.newSingleThreadExecutor();
     CreatePasswordRequest createPasswordRequest = new CreatePasswordRequest(username, password);
     credentialManager.createCredentialAsync(
-      getCurrentActivity(),
+      activity,
       createPasswordRequest,
       null,
       executor,
