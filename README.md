@@ -1,6 +1,6 @@
 # react-native-mediastore
 
-React Native Google One Tip Signin
+React Native Google One Tip Signin (only Android)
 
 ## Installation
 
@@ -18,17 +18,28 @@ yarn add react-native-google-one-tap-signin
 
 import GoogleOneTapSignIn from "react-native-google-one-tap-signin";
 
-// Save username and password
-GoogleOneTapSignIn.savePassword('test@example.app', 'test')
+const handleSignIn = async () => {
+  try {
+    await GoogleOneTapSignIn.configure({
+      webClientId: GOOGLE_ONE_TAP_SIGN_IN,
+    })
+    
+    const userInfo = await GoogleOneTapSignIn.signIn()
 
-// Prompt and login using saved credentials
-GoogleOneTapSignIn.signIn()
+    if (!userInfo || !userInfo.idToken) {
+      console.error('GoogleOneTapSignIn error', 'There was some issue with getting id token', userInfo)
+      return
+    }
 
-// Logout from all saved credentials
-GoogleOneTapSignIn.signOut()
+    // YOUR USER HERE
+    // You can store this value in store or sign in to your backend
+    console.log(userInfo)
 
-// Delete specific credentials (iOS only)
-GoogleOneTapSignIn.deletePassword('test@example.app', 'test')
+  } catch (error) {
+    // We might want to provide this error information to an error reporting service
+    console.error('GoogleOneTapSignIn error', error)
+  }
+}
 
 ```
 
