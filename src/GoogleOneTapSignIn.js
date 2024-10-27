@@ -21,16 +21,16 @@ class GoogleOneTapSignIn {
     return RNGoogleOneTapSignIn.signIn();
   }
 
-  savePassword(userId, password) {
-    if (IS_IOS)
+  configure(options = {}) {
+    if (IS_IOS) {
       return Promise.reject(new Error("Unsupported"));
-    return RNGoogleOneTapSignIn.savePassword(userId, password);
-  }
+    }
+    
+    if (!options.webClientId) {
+      throw new Error('RNGoogleOneTapSignIn: you need to pass web ClientID');
+    }
 
-  deletePassword(userId, password) {
-    if (IS_IOS)
-      return Promise.reject(new Error("Unsupported"));
-    return RNGoogleOneTapSignIn.deletePassword(userId, password);
+    return RNGoogleOneTapSignIn.configure(options);
   }
 
   signOut() {
