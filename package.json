@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-one-tap-signin",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Google One Tap Sign In for your react native applications",
   "main": "index.js",
   "author": {

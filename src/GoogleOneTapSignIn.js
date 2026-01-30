@@ -21,22 +21,28 @@ class GoogleOneTapSignIn {
     return RNGoogleOneTapSignIn.signIn();
   }
 
-  configure(options = {}) {
-    if (IS_IOS) {
+  savePassword(userId, password) {
+    if (IS_IOS)
       return Promise.reject(new Error("Unsupported"));
-    }
-    
-    if (!options.webClientId) {
-      throw new Error('RNGoogleOneTapSignIn: you need to pass web ClientID');
-    }
+    return RNGoogleOneTapSignIn.savePassword(userId, password);
+  }
 
-    return RNGoogleOneTapSignIn.configure(options);
+  deletePassword(userId, password) {
+    if (IS_IOS)
+      return Promise.reject(new Error("Unsupported"));
+    return RNGoogleOneTapSignIn.deletePassword(userId, password);
   }
 
   signOut() {
     if (IS_IOS)
       return Promise.reject(new Error("Unsupported"));
     return RNGoogleOneTapSignIn.signOut();
+  }
+
+  signInWithGoogle(webClientId) {
+    if (IS_IOS)
+      return Promise.reject(new Error("Unsupported"));
+    return RNGoogleOneTapSignIn.signInWithGoogle(webClientId);
   }
 }
 
