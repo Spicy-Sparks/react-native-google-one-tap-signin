@@ -1,7 +1,5 @@
 package com.spicysparks.googleonetapsignin;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.CreateCredentialResponse;
@@ -51,19 +49,13 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
       .build();
   }
 
-  private static final String TAG = "OneTapSignIn";
-
   @ReactMethod
   public void signIn(Promise promise) {
-    Log.d(TAG, "signIn() called");
     var activity = getCurrentActivity();
     if (activity == null) {
-      Log.e(TAG, "Activity is null");
       promise.reject("ERROR", "Activity is null");
       return;
     }
-    Log.d(TAG, "Activity: " + activity.getClass().getName());
-    Log.d(TAG, "Requesting credentials...");
     Executor executor = Executors.newSingleThreadExecutor();
     credentialManager.getCredentialAsync(
       activity,
@@ -73,26 +65,20 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
       new CredentialManagerCallback<>() {
         @Override
         public void onResult(GetCredentialResponse result) {
-          Log.d(TAG, "Got credential response");
           Credential credential = result.getCredential();
-          Log.d(TAG, "Credential type: " + credential.getClass().getName());
           if (credential instanceof PasswordCredential) {
             String username = ((PasswordCredential) credential).getId();
             String password = ((PasswordCredential) credential).getPassword();
-            Log.d(TAG, "PasswordCredential - username: " + username + ", password length: " + password.length());
             WritableMap args = Arguments.createMap();
             args.putString("id", username);
             args.putString("password", password);
             promise.resolve(args);
           } else {
-            Log.e(TAG, "Unexpected credential type: " + credential.getClass().getName());
-            promise.reject("ERROR", "Unexpected type of credential: " + credential.getClass().getName());
+            promise.reject("ERROR", "Unexpected type of credential");
           }
         }
         @Override
         public void onError(@NonNull GetCredentialException e) {
-          Log.e(TAG, "GetCredentialException: " + e.getClass().getName() + " - " + e.getMessage());
-          Log.e(TAG, "Error type: " + e.getType());
           promise.reject(e.getType(), e.getMessage());
         }
       }
@@ -122,14 +108,11 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void savePassword(String username, String password, Promise promise) {
-    Log.d(TAG, "savePassword() called for: " + username);
     var activity = getCurrentActivity();
     if (activity == null) {
-      Log.e(TAG, "savePassword: Activity is null");
       promise.reject("ERROR", "Activity is null");
       return;
     }
-    Log.d(TAG, "Creating password request...");
     Executor executor = Executors.newSingleThreadExecutor();
     CreatePasswordRequest createPasswordRequest = new CreatePasswordRequest(username, password);
     credentialManager.createCredentialAsync(
@@ -140,13 +123,10 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
       new CredentialManagerCallback<>() {
         @Override
         public void onResult(CreateCredentialResponse result) {
-          Log.d(TAG, "Password saved successfully");
           promise.resolve(true);
         }
         @Override
         public void onError(CreateCredentialException e) {
-          Log.e(TAG, "CreateCredentialException: " + e.getClass().getName() + " - " + e.getMessage());
-          Log.e(TAG, "Error type: " + e.getType());
           promise.reject(e.getType(), e.getMessage());
         }
       }
@@ -160,18 +140,15 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void signInWithGoogle(String webClientId, Promise promise) {
-    Log.d(TAG, "signInWithGoogle() called with webClientId: " + webClientId);
     var activity = getCurrentActivity();
     if (activity == null) {
-      Log.e(TAG, "signInWithGoogle: Activity is null");
       promise.reject("ERROR", "Activity is null");
       return;
     }
 
-    // Build Google ID option with auto-select enabled
     GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-      .setFilterByAuthorizedAccounts(true) // Only show accounts that have already authorized the app
-      .setAutoSelectEnabled(true) // Enable auto-select for seamless sign-in
+      .setFilterByAuthorizedAccounts(true)
+      .setAutoSelectEnabled(true)
       .setServerClientId(webClientId)
       .build();
 
@@ -180,7 +157,6 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
       .build();
 
     Executor executor = Executors.newSingleThreadExecutor();
-    Log.d(TAG, "signInWithGoogle: Requesting Google ID credential...");
 
     credentialManager.getCredentialAsync(
       activity,
@@ -190,9 +166,7 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
       new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
         @Override
         public void onResult(GetCredentialResponse result) {
-          Log.d(TAG, "signInWithGoogle: Got credential response");
           Credential credential = result.getCredential();
-          Log.d(TAG, "signInWithGoogle: Credential type: " + credential.getClass().getName());
 
           if (credential instanceof CustomCredential) {
             if (GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL.equals(credential.getType())) {
@@ -207,8 +181,6 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
                   ? googleIdTokenCredential.getProfilePictureUri().toString()
                   : "";
 
-                Log.d(TAG, "signInWithGoogle: Got Google ID token for: " + id);
-
                 WritableMap args = Arguments.createMap();
                 args.putString("idToken", idToken);
                 args.putString("id", id);
@@ -219,23 +191,18 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
                 args.putString("photo", profilePictureUri);
                 promise.resolve(args);
               } catch (Exception e) {
-                Log.e(TAG, "signInWithGoogle: Failed to parse Google ID token", e);
                 promise.reject("ERROR", "Failed to parse Google ID token: " + e.getMessage());
               }
             } else {
-              Log.e(TAG, "signInWithGoogle: Unexpected custom credential type: " + credential.getType());
               promise.reject("ERROR", "Unexpected custom credential type");
             }
           } else {
-            Log.e(TAG, "signInWithGoogle: Unexpected credential class: " + credential.getClass().getName());
             promise.reject("ERROR", "Unexpected credential type");
           }
         }
 
         @Override
         public void onError(@NonNull GetCredentialException e) {
-          Log.e(TAG, "signInWithGoogle: GetCredentialException: " + e.getClass().getName() + " - " + e.getMessage());
-          Log.e(TAG, "signInWithGoogle: Error type: " + e.getType());
           promise.reject(e.getType(), e.getMessage());
         }
       }
