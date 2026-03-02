@@ -139,18 +139,25 @@ public class RNGoogleOneTapSignInModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void signInWithGoogle(String webClientId, Promise promise) {
+  public void signInWithGoogle(String webClientId, String nonce, Promise promise) {
     var activity = getCurrentActivity();
     if (activity == null) {
       promise.reject("ERROR", "Activity is null");
       return;
     }
 
-    GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
-      .setFilterByAuthorizedAccounts(true)
-      .setAutoSelectEnabled(true)
-      .setServerClientId(webClientId)
-      .build();
+    boolean hasNonce = nonce != null && !nonce.isEmpty();
+
+    GetGoogleIdOption.Builder optionBuilder = new GetGoogleIdOption.Builder()
+      .setFilterByAuthorizedAccounts(!hasNonce)
+      .setAutoSelectEnabled(!hasNonce)
+      .setServerClientId(webClientId);
+
+    if (hasNonce) {
+      optionBuilder.setNonce(nonce);
+    }
+
+    GetGoogleIdOption googleIdOption = optionBuilder.build();
 
     GetCredentialRequest request = new GetCredentialRequest.Builder()
       .addCredentialOption(googleIdOption)

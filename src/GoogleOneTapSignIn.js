@@ -39,10 +39,10 @@ class GoogleOneTapSignIn {
     return RNGoogleOneTapSignIn.signOut();
   }
 
-  signInWithGoogle(webClientId) {
+  signInWithGoogle(webClientId, nonce) {
     if (IS_IOS)
       return Promise.reject(new Error("Unsupported"));
-    return RNGoogleOneTapSignIn.signInWithGoogle(webClientId);
+    return RNGoogleOneTapSignIn.signInWithGoogle(webClientId, nonce ?? null);
   }
 }
 
