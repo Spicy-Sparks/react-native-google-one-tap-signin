@@ -9,21 +9,13 @@ buildscript {
 	if (project == rootProject) {
 		repositories {
 			google()
-			jcenter()
+			mavenCentral()
 		}
 
 		dependencies {
-			classpath("com.android.tools.build:gradle:3.6.3")
+			classpath("com.android.tools.build:gradle:8.1.0")
 		}
 	}
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "$projectDir/../node_modules/react-native/android" }
-    }
 }
 
 apply plugin: 'com.android.library'
@@ -36,9 +28,6 @@ android {
         targetSdkVersion safeExtGet('targetSdkVersion', 28)
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
     }
 
     lintOptions {
@@ -49,8 +38,8 @@ android {
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
   implementation "androidx.appcompat:appcompat:1.1.0"
-  implementation("androidx.credentials:credentials:${safeExtGet('androidCredentialsVersion', '1.3.0-alpha01')}")
-  implementation("androidx.credentials:credentials-play-services-auth:${safeExtGet('androidCredentialsVersion', '1.3.0-alpha01')}")
+  implementation("androidx.credentials:credentials:${safeExtGet('androidCredentialsVersion', '1.6.0')}")
+  implementation("androidx.credentials:credentials-play-services-auth:${safeExtGet('androidCredentialsVersion', '1.6.0')}")
   implementation "com.google.android.libraries.identity.googleid:googleid:1.1.1"
   implementation "com.facebook.react:react-native:+"
 }
